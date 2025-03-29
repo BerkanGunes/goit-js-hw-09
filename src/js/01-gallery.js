@@ -1,7 +1,3 @@
-// basicLightbox kütüphanesini kullan
-// Not: SimpleLightbox yerine basicLightbox kullanılıyor
-
-// Galeri için resim verilerini içeren dizi
 const images = [
   {
     preview:
@@ -90,7 +86,6 @@ galleryContainer.innerHTML = createGalleryMarkup(images);
 let modal = null;
 let currentImageIndex = 0;
 
-// Ok butonları için CSS stilleri
 const navigationStyles = `
   .navigation-button {
     position: absolute;
@@ -121,7 +116,6 @@ const navigationStyles = `
   }
 `;
 
-// Stilleri sayfa başına ekle
 const styleElement = document.createElement('style');
 styleElement.textContent = navigationStyles;
 document.head.appendChild(styleElement);
@@ -138,7 +132,6 @@ function onGalleryClick(event) {
   const clickedImage = event.target;
   const allGalleryImages = document.querySelectorAll('.gallery-image');
   
-  // Tıklanan resmin dizindeki konumunu bul
   allGalleryImages.forEach((img, index) => {
     if (img === clickedImage) {
       currentImageIndex = index;
@@ -148,11 +141,9 @@ function onGalleryClick(event) {
   showLightbox(currentImageIndex);
 }
 
-// Global event listener for navigation clicks
 document.addEventListener('click', function(e) {
   const target = e.target;
   
-  // Check if the clicked element is a navigation button
   if (target.closest('.prev-button')) {
     e.preventDefault();
     navigateGallery('prev');
@@ -165,10 +156,8 @@ document.addEventListener('click', function(e) {
 function navigateGallery(direction) {
   if (!modal) return;
   
-  // Close current modal
   modal.close();
   
-  // Calculate new index
   let newIndex = currentImageIndex;
   if (direction === 'prev') {
     newIndex = (currentImageIndex - 1 + images.length) % images.length;
@@ -176,7 +165,6 @@ function navigateGallery(direction) {
     newIndex = (currentImageIndex + 1) % images.length;
   }
   
-  // Show new image
   setTimeout(() => {
     showLightbox(newIndex);
   }, 100);
@@ -189,7 +177,6 @@ function showLightbox(index) {
   currentImageIndex = index;
   const imageData = images[index];
   
-  // Modal içeriğini oluştur (resim ve gezinme butonları)
   modal = basicLightbox.create(`
     <div class="lightbox-container" style="position: relative;">
       <img src="${imageData.original}" alt="${imageData.description}" width="1100">
@@ -222,4 +209,4 @@ function onKeyPress(event) {
       navigateGallery('next');
       break;
   }
-} 
+}
